@@ -104,6 +104,7 @@
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             border: 1px solid var(--border);
+            min-height: 350px;
         }
         .chart-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
         .table-container {
@@ -112,6 +113,19 @@
             border: 1px solid var(--border);
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        .table-search {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg);
+        }
+        .table-search input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
         }
         .table-scroll { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -149,135 +163,42 @@
             <button class="tab-btn" data-tab="historico">✅ Histórico</button>
         </div>
 
-        <!-- TAB PENDIENTES -->
         <div class="tab-content active" id="pendientes">
             <div class="filters">
-                <div class="filter-group">
-                    <label>Fecha Inicio</label>
-                    <input type="date" id="pen-fecha-inicio">
-                </div>
-                <div class="filter-group">
-                    <label>Fecha Fin</label>
-                    <input type="date" id="pen-fecha-fin">
-                </div>
-                <div class="filter-group">
-                    <label>Departamento</label>
-                    <select id="pen-depto"><option value="">Todos</option></select>
-                </div>
-                <div class="filter-group">
-                    <label>Tipo de Pago</label>
-                    <select id="pen-tipo">
-                        <option value="">Todos</option>
-                        <option value="Recurrente">Recurrente</option>
-                        <option value="Nuevo">Nuevo</option>
-                        <option value="Extraordinario">Extraordinario</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Estado</label>
-                    <select id="pen-estado">
-                        <option value="">Todos</option>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="Aprobado">Aprobado</option>
-                        <option value="Rechazado">Rechazado</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Rango Monto ($)</label>
-                    <select id="pen-rango">
-                        <option value="">Todos</option>
-                        <option value="0-1000">$0 - $1,000</option>
-                        <option value="1000-5000">$1,000 - $5,000</option>
-                        <option value="5000-10000">$5,000 - $10,000</option>
-                        <option value="10000+">$10,000+</option>
-                    </select>
-                </div>
+                <div class="filter-group"><label>Fecha Inicio</label><input type="date" id="pen-fecha-inicio"></div>
+                <div class="filter-group"><label>Fecha Fin</label><input type="date" id="pen-fecha-fin"></div>
+                <div class="filter-group"><label>Departamento</label><select id="pen-depto"><option value="">Todos</option></select></div>
+                <div class="filter-group"><label>Tipo de Pago</label><select id="pen-tipo"><option value="">Todos</option><option value="Recurrente">Recurrente</option><option value="Nuevo">Nuevo</option><option value="Extraordinario">Extraordinario</option></select></div>
+                <div class="filter-group"><label>Estado</label><select id="pen-estado"><option value="">Todos</option><option value="Pendiente">Pendiente</option><option value="Aprobado">Aprobado</option><option value="Rechazado">Rechazado</option></select></div>
+                <div class="filter-group"><label>Rango Monto ($)</label><select id="pen-rango"><option value="">Todos</option><option value="0-1000">$0 - $1,000</option><option value="1000-5000">$1,000 - $5,000</option><option value="5000-10000">$5,000 - $10,000</option><option value="10000+">$10,000+</option></select></div>
                 <button class="btn-reset" onclick="resetFilters('pendientes')">Limpiar Filtros</button>
             </div>
             <div class="metrics" id="pen-metrics"></div>
             <div class="charts-grid" id="pen-charts"></div>
             <div class="table-container">
+                <div class="table-search"><input type="text" id="pen-search" placeholder="🔍 Buscar por ID o Solicitante..."></div>
                 <div class="table-scroll">
-                    <table id="pen-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Solicitante</th>
-                                <th>Departamento</th>
-                                <th>Tipo</th>
-                                <th>Monto</th>
-                                <th>Estado Dir</th>
-                                <th>Estado Tu</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <table id="pen-table"><thead><tr><th>ID</th><th>Solicitante</th><th>Departamento</th><th>Tipo</th><th>Monto</th><th>Estado Dir</th><th>Estado Tu</th></tr></thead><tbody></tbody></table>
                 </div>
             </div>
         </div>
 
-        <!-- TAB HISTÓRICO -->
         <div class="tab-content" id="historico">
             <div class="filters">
-                <div class="filter-group">
-                    <label>Fecha Inicio</label>
-                    <input type="date" id="his-fecha-inicio">
-                </div>
-                <div class="filter-group">
-                    <label>Fecha Fin</label>
-                    <input type="date" id="his-fecha-fin">
-                </div>
-                <div class="filter-group">
-                    <label>Departamento</label>
-                    <select id="his-depto"><option value="">Todos</option></select>
-                </div>
-                <div class="filter-group">
-                    <label>Tipo de Pago</label>
-                    <select id="his-tipo">
-                        <option value="">Todos</option>
-                        <option value="Recurrente">Recurrente</option>
-                        <option value="Nuevo">Nuevo</option>
-                        <option value="Extraordinario">Extraordinario</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Estado</label>
-                    <select id="his-estado">
-                        <option value="">Todos</option>
-                        <option value="Aprobado">Aprobado</option>
-                        <option value="Rechazado">Rechazado</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Rango Monto ($)</label>
-                    <select id="his-rango">
-                        <option value="">Todos</option>
-                        <option value="0-1000">$0 - $1,000</option>
-                        <option value="1000-5000">$1,000 - $5,000</option>
-                        <option value="5000-10000">$5,000 - $10,000</option>
-                        <option value="10000+">$10,000+</option>
-                    </select>
-                </div>
+                <div class="filter-group"><label>Fecha Inicio</label><input type="date" id="his-fecha-inicio"></div>
+                <div class="filter-group"><label>Fecha Fin</label><input type="date" id="his-fecha-fin"></div>
+                <div class="filter-group"><label>Departamento</label><select id="his-depto"><option value="">Todos</option></select></div>
+                <div class="filter-group"><label>Tipo de Pago</label><select id="his-tipo"><option value="">Todos</option><option value="Recurrente">Recurrente</option><option value="Nuevo">Nuevo</option><option value="Extraordinario">Extraordinario</option></select></div>
+                <div class="filter-group"><label>Estado</label><select id="his-estado"><option value="">Todos</option><option value="Aprobado">Aprobado</option><option value="Rechazado">Rechazado</option></select></div>
+                <div class="filter-group"><label>Rango Monto ($)</label><select id="his-rango"><option value="">Todos</option><option value="0-1000">$0 - $1,000</option><option value="1000-5000">$1,000 - $5,000</option><option value="5000-10000">$5,000 - $10,000</option><option value="10000+">$10,000+</option></select></div>
                 <button class="btn-reset" onclick="resetFilters('historico')">Limpiar Filtros</button>
             </div>
             <div class="metrics" id="his-metrics"></div>
             <div class="charts-grid" id="his-charts"></div>
             <div class="table-container">
+                <div class="table-search"><input type="text" id="his-search" placeholder="🔍 Buscar por ID o Solicitante..."></div>
                 <div class="table-scroll">
-                    <table id="his-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Solicitante</th>
-                                <th>Departamento</th>
-                                <th>Tipo</th>
-                                <th>Monto</th>
-                                <th>Estado</th>
-                                <th>Fecha Completada</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <table id="his-table"><thead><tr><th>ID</th><th>Solicitante</th><th>Departamento</th><th>Tipo</th><th>Monto</th><th>Estado</th><th>Fecha Completada</th></tr></thead><tbody></tbody></table>
                 </div>
             </div>
         </div>
@@ -288,6 +209,7 @@
         const CSV_HISTORICO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThwxFKMM6jen-XSwE-LoNvcHJzDWJG1Yz7EfBFI-yIAUr0VNA_MyBOmz31a4gMagQTwKX2cgRfKQQ_/pub?gid=1436788904&single=true&output=csv';
         
         let allData = { pendientes: [], historico: [] };
+        let chartsInstance = {};
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -300,11 +222,7 @@
 
         async function fetchData() {
             try {
-                const [resPen, resHis] = await Promise.all([
-                    fetch(CSV_PENDIENTES),
-                    fetch(CSV_HISTORICO)
-                ]);
-
+                const [resPen, resHis] = await Promise.all([fetch(CSV_PENDIENTES), fetch(CSV_HISTORICO)]);
                 const csvPen = await resPen.text();
                 const csvHis = await resHis.text();
 
@@ -312,16 +230,14 @@
                     header: true,
                     complete: (results) => {
                         allData.pendientes = results.data.filter(row => Object.values(row).some(v => v));
-                    },
-                    error: (err) => console.error('Error parsing Pendientes:', err)
+                    }
                 });
 
                 Papa.parse(csvHis, {
                     header: true,
                     complete: (results) => {
                         allData.historico = results.data.filter(row => Object.values(row).some(v => v));
-                    },
-                    error: (err) => console.error('Error parsing Histórico:', err)
+                    }
                 });
 
                 setTimeout(() => {
@@ -329,9 +245,8 @@
                     updateDashboard('pendientes');
                     updateDashboard('historico');
                 }, 500);
-
             } catch (error) {
-                console.error('Error fetching:', error);
+                console.error('Error:', error);
             }
         }
 
@@ -361,13 +276,16 @@
             const tipo = document.getElementById(`${prefix}-tipo`).value;
             const estado = document.getElementById(`${prefix}-estado`).value;
             const rango = document.getElementById(`${prefix}-rango`).value;
+            const search = document.getElementById(`${prefix}-search`).value.toLowerCase();
 
             return source.filter(row => {
-                const fecha = row['Columna 1'] ? new Date(row['Columna 1']) : null;
+                const fecha = row['Columna 1'] ? new Date(row['Columna 1']) : (row['Fecha completada'] ? new Date(row['Fecha completada']) : null);
                 const monto = parseFloat(row['Monto del gasto en moneda original']) || 0;
                 const rowDepto = row['Departamento solicitante'] || '';
                 const rowTipo = row['Tipo de gasto'] || '';
                 const rowEstado = row['Estado Tu'] || '';
+                const rowId = (row['ID'] || '').toLowerCase();
+                const rowEmail = (row['Dirección de correo electrónico'] || '').toLowerCase();
 
                 if (fechaInicio && fecha < new Date(fechaInicio)) return false;
                 if (fechaFin && fecha > new Date(fechaFin)) return false;
@@ -378,6 +296,8 @@
                     const [min, max] = rango === '10000+' ? [10000, Infinity] : rango.split('-').map(Number);
                     if (monto < min || monto > max) return false;
                 }
+                if (search && !rowId.includes(search) && !rowEmail.includes(search)) return false;
+                
                 return true;
             });
         }
@@ -392,26 +312,11 @@
             const tasa = filtered.length > 0 ? ((aprobadas / filtered.length) * 100).toFixed(1) : 0;
 
             document.getElementById(`${prefix}-metrics`).innerHTML = `
-                <div class="metric-card">
-                    <div class="metric-label">Total Solicitudes</div>
-                    <div class="metric-value">${filtered.length}</div>
-                </div>
-                <div class="metric-card success">
-                    <div class="metric-label">Monto Total</div>
-                    <div class="metric-value">$${totalMonto.toLocaleString()}</div>
-                </div>
-                <div class="metric-card success">
-                    <div class="metric-label">Aprobadas</div>
-                    <div class="metric-value">${aprobadas}</div>
-                </div>
-                <div class="metric-card danger">
-                    <div class="metric-label">Rechazadas</div>
-                    <div class="metric-value">${rechazadas}</div>
-                </div>
-                <div class="metric-card warning">
-                    <div class="metric-label">Tasa Aprobación</div>
-                    <div class="metric-value">${tasa}%</div>
-                </div>
+                <div class="metric-card"><div class="metric-label">Total Solicitudes</div><div class="metric-value">${filtered.length}</div></div>
+                <div class="metric-card success"><div class="metric-label">Monto Total</div><div class="metric-value">$${totalMonto.toLocaleString()}</div></div>
+                <div class="metric-card success"><div class="metric-label">Aprobadas</div><div class="metric-value">${aprobadas}</div></div>
+                <div class="metric-card danger"><div class="metric-label">Rechazadas</div><div class="metric-value">${rechazadas}</div></div>
+                <div class="metric-card warning"><div class="metric-label">Tasa Aprobación</div><div class="metric-value">${tasa}%</div></div>
             `;
 
             updateCharts(tab, filtered);
@@ -435,48 +340,43 @@
             const pendientes = filtered.filter(row => row['Estado Tu'] && row['Estado Tu'].includes('Pendiente')).length;
 
             chartsContainer.innerHTML = `
-                <div class="chart-container">
-                    <div class="chart-title">Monto Solicitado por Departamento</div>
-                    <canvas id="chart1"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title"># Solicitudes por Departamento</div>
-                    <canvas id="chart2"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title">Estado</div>
-                    <canvas id="chart3"></canvas>
-                </div>
+                <div class="chart-container"><div class="chart-title">Monto Solicitado por Departamento</div><canvas id="chart1"></canvas></div>
+                <div class="chart-container"><div class="chart-title"># Solicitudes por Departamento</div><canvas id="chart2"></canvas></div>
+                <div class="chart-container"><div class="chart-title">Estado</div><canvas id="chart3"></canvas></div>
             `;
 
             setTimeout(() => {
+                if (chartsInstance[`${prefix}1`]) chartsInstance[`${prefix}1`].destroy();
+                if (chartsInstance[`${prefix}2`]) chartsInstance[`${prefix}2`].destroy();
+                if (chartsInstance[`${prefix}3`]) chartsInstance[`${prefix}3`].destroy();
+
                 const labels1 = Object.keys(montoByDepto);
-                new Chart(document.getElementById('chart1'), {
+                chartsInstance[`${prefix}1`] = new Chart(document.getElementById('chart1'), {
                     type: 'bar',
                     data: {
                         labels: labels1,
                         datasets: [{ label: 'Monto', data: labels1.map(l => montoByDepto[l]), backgroundColor: '#3b82f6', borderRadius: 5 }]
                     },
-                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
                 });
 
                 const labels2 = Object.keys(countByDepto);
-                new Chart(document.getElementById('chart2'), {
+                chartsInstance[`${prefix}2`] = new Chart(document.getElementById('chart2'), {
                     type: 'bar',
                     data: {
                         labels: labels2,
                         datasets: [{ label: '# Solicitudes', data: labels2.map(l => countByDepto[l]), backgroundColor: '#10b981', borderRadius: 5 }]
                     },
-                    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
                 });
 
-                new Chart(document.getElementById('chart3'), {
+                chartsInstance[`${prefix}3`] = new Chart(document.getElementById('chart3'), {
                     type: 'doughnut',
                     data: {
                         labels: ['Aprobado', 'Rechazado', 'Pendiente'],
                         datasets: [{ data: [aprobadas, rechazadas, pendientes], backgroundColor: ['#10b981', '#ef4444', '#f59e0b'] }]
                     },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+                    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } }
                 });
             }, 100);
         }
@@ -485,7 +385,7 @@
             const prefix = tab === 'pendientes' ? 'pen' : 'his';
             const tbody = document.querySelector(`#${prefix}-table tbody`);
             
-            tbody.innerHTML = filtered.slice(0, 50).map(row => {
+            tbody.innerHTML = filtered.slice(0, 100).map(row => {
                 const estado = row['Estado Tu'] || 'N/A';
                 const estadoClass = estado.includes('Aprobado') ? 'aprobado' : estado.includes('Rechazado') ? 'rechazado' : estado.includes('Pendiente') ? 'pendiente' : 'na';
                 const estadoDir = row['Estado Dirección'] || 'N/A';
@@ -508,18 +408,28 @@
 
         function resetFilters(tab) {
             const prefix = tab === 'pendientes' ? 'pen' : 'his';
-            ['fecha-inicio', 'fecha-fin', 'depto', 'tipo', 'estado', 'rango'].forEach(f => {
-                document.getElementById(`${prefix}-${f}`).value = '';
+            ['fecha-inicio', 'fecha-fin', 'depto', 'tipo', 'estado', 'rango', 'search'].forEach(f => {
+                const elem = document.getElementById(`${prefix}-${f}`);
+                if (elem) elem.value = '';
             });
             updateDashboard(tab);
         }
 
         ['pen', 'his'].forEach(prefix => {
             ['fecha-inicio', 'fecha-fin', 'depto', 'tipo', 'estado', 'rango'].forEach(filter => {
-                document.getElementById(`${prefix}-${filter}`).addEventListener('change', () => {
+                const elem = document.getElementById(`${prefix}-${filter}`);
+                if (elem) {
+                    elem.addEventListener('change', () => {
+                        updateDashboard(prefix === 'pen' ? 'pendientes' : 'historico');
+                    });
+                }
+            });
+            const search = document.getElementById(`${prefix}-search`);
+            if (search) {
+                search.addEventListener('input', () => {
                     updateDashboard(prefix === 'pen' ? 'pendientes' : 'historico');
                 });
-            });
+            }
         });
 
         fetchData();
