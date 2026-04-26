@@ -284,7 +284,7 @@
                 const rowDepto = row['Departamento solicitante'] || '';
                 const rowTipo = row['Tipo de gasto'] || '';
                 const rowEstado = row['Estado Tu'] || '';
-                const rowId = (row['ID Solicitud'] || '').toLowerCase();
+                const rowId = (row['ID Solicitud'] || row['ID'] || '').toLowerCase();
                 const rowEmail = (row['Dirección de correo electrónico'] || '').toLowerCase();
 
                 if (fechaInicio && fecha < new Date(fechaInicio)) return false;
@@ -393,7 +393,7 @@
 
                 return `
                     <tr>
-                        <td>${row['ID Solicitud'] || 'N/A'}</td>
+                        <td>${row['ID Solicitud'] || row['ID'] || 'N/A'}</td>
                         <td>${row['Dirección de correo electrónico'] || 'N/A'}</td>
                         <td>${row['Departamento solicitante'] || 'N/A'}</td>
                         <td>${row['Tipo de gasto'] || 'N/A'}</td>
