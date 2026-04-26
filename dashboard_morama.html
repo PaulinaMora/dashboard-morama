@@ -284,7 +284,7 @@
                 const rowDepto = row['Departamento solicitante'] || '';
                 const rowTipo = row['Tipo de gasto'] || '';
                 const rowEstado = row['Estado Tu'] || '';
-                const rowId = (row['ID'] || '').toLowerCase();
+                const rowId = (row['ID Solicitud'] || '').toLowerCase();
                 const rowEmail = (row['Dirección de correo electrónico'] || '').toLowerCase();
 
                 if (fechaInicio && fecha < new Date(fechaInicio)) return false;
@@ -340,9 +340,9 @@
             const pendientes = filtered.filter(row => row['Estado Tu'] && row['Estado Tu'].includes('Pendiente')).length;
 
             chartsContainer.innerHTML = `
-                <div class="chart-container"><div class="chart-title">Monto Solicitado por Departamento</div><canvas id="chart1"></canvas></div>
-                <div class="chart-container"><div class="chart-title"># Solicitudes por Departamento</div><canvas id="chart2"></canvas></div>
-                <div class="chart-container"><div class="chart-title">Estado</div><canvas id="chart3"></canvas></div>
+                <div class="chart-container"><div class="chart-title">Monto Solicitado por Departamento</div><canvas id="${prefix}chart1"></canvas></div>
+                <div class="chart-container"><div class="chart-title"># Solicitudes por Departamento</div><canvas id="${prefix}chart2"></canvas></div>
+                <div class="chart-container"><div class="chart-title">Estado</div><canvas id="${prefix}chart3"></canvas></div>
             `;
 
             setTimeout(() => {
@@ -351,7 +351,7 @@
                 if (chartsInstance[`${prefix}3`]) chartsInstance[`${prefix}3`].destroy();
 
                 const labels1 = Object.keys(montoByDepto);
-                chartsInstance[`${prefix}1`] = new Chart(document.getElementById('chart1'), {
+                chartsInstance[`${prefix}1`] = new Chart(document.getElementById(`${prefix}chart1`), {
                     type: 'bar',
                     data: {
                         labels: labels1,
@@ -361,7 +361,7 @@
                 });
 
                 const labels2 = Object.keys(countByDepto);
-                chartsInstance[`${prefix}2`] = new Chart(document.getElementById('chart2'), {
+                chartsInstance[`${prefix}2`] = new Chart(document.getElementById(`${prefix}chart2`), {
                     type: 'bar',
                     data: {
                         labels: labels2,
@@ -370,7 +370,7 @@
                     options: { indexAxis: 'y', responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
                 });
 
-                chartsInstance[`${prefix}3`] = new Chart(document.getElementById('chart3'), {
+                chartsInstance[`${prefix}3`] = new Chart(document.getElementById(`${prefix}chart3`), {
                     type: 'doughnut',
                     data: {
                         labels: ['Aprobado', 'Rechazado', 'Pendiente'],
@@ -393,11 +393,11 @@
 
                 return `
                     <tr>
-                        <td>${row['ID'] || 'N/A'}</td>
+                        <td>${row['ID Solicitud'] || 'N/A'}</td>
                         <td>${row['Dirección de correo electrónico'] || 'N/A'}</td>
                         <td>${row['Departamento solicitante'] || 'N/A'}</td>
                         <td>${row['Tipo de gasto'] || 'N/A'}</td>
-                        <td>$${(parseFloat(row['Monto del gasto en moneda original']) || 0).toLocaleString()}</td>
+                        <td>$${(parseFloat(row['Monto del gasto en moneda original']) || 0).toLocaleString('es-MX', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                         ${tab === 'pendientes' ? `<td><span class="status-badge status-${estadoDirClass}">${estadoDir}</span></td>` : ''}
                         <td><span class="status-badge status-${estadoClass}">${estado}</span></td>
                         ${tab === 'historico' ? `<td>${row['Fecha completada'] || 'N/A'}</td>` : ''}
